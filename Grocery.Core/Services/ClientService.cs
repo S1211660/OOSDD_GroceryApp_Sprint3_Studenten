@@ -1,4 +1,5 @@
-﻿using Grocery.Core.Interfaces.Repositories;
+﻿using Grocery.Core.Helpers;
+using Grocery.Core.Interfaces.Repositories;
 using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Models;
 using System;
@@ -31,6 +32,14 @@ namespace Grocery.Core.Services
         {
             List<Client> clients = _clientRepository.GetAll();
             return clients;
+        }
+        public Client Register(string name, string email, string password)
+        {
+            string hashedPassword = PasswordHelper.HashPassword(password);
+
+            Client newClient = new Client(0, name, email, hashedPassword);
+
+            return _clientRepository.Add(newClient);
         }
     }
 }
