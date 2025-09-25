@@ -82,5 +82,24 @@ namespace TestCore
             Assert.Throws<InvalidOperationException>(() =>
                 _clientService.Register("New User", existingEmailDifferentCase, "Password123!"));
         }
+        [Test]
+        public void Register_WithExactly8CharPassword_WithSpecialChar_Succeeds()
+        {
+            // Arrange
+            string password = "Pass123!";
+
+            // Act
+            var result = _clientService.Register("Test", "test@test.com", password);
+
+            // Assert
+            Assert.That(result, Is.Not.Null);
+        }
+
+        [Test]
+        public void Register_WithExactly7CharPassword_Fails()
+        {
+            // Arrange  
+            string password = "Pass12!";
+        }
     }
 }
