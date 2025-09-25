@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Grocery.Core.Interfaces.Services;
+using Grocery.App.Views;
 using System.ComponentModel.DataAnnotations;
 
 namespace Grocery.App.ViewModels
@@ -44,7 +45,9 @@ namespace Grocery.App.ViewModels
                 RegistrationMessage = "Registratie succesvol!";
 
                 await Task.Delay(1000);
-                await Shell.Current.GoToAsync("//Login");
+                var loginViewModel = App.Current.Handler.MauiContext.Services.GetService<LoginViewModel>();
+                var loginView = new LoginView(loginViewModel);
+                Application.Current.MainPage = loginView;
             }
             catch (InvalidOperationException ex)
             {
@@ -57,9 +60,11 @@ namespace Grocery.App.ViewModels
         }
 
         [RelayCommand]
-        private async Task GoToLogin()
+        private void GoToLogin()
         {
-            await Shell.Current.GoToAsync("//Login");
+            var loginViewModel = App.Current.Handler.MauiContext.Services.GetService<LoginViewModel>();
+            var loginView = new LoginView(loginViewModel);
+            Application.Current.MainPage = loginView;
         }
 
         private bool ValidateInput()
