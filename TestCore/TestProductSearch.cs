@@ -93,7 +93,7 @@ namespace TestCore
             Assert.That(filteredProducts.Any(p => p.Stock == 0), Is.False);
         }
 
-        // Helper methode die de filtering van ViewModel simuleert
+        // Methode die de filtering van ViewModel simuleert
         private List<Product> FilterProducts(List<Product> products, string searchText)
         {
             if (string.IsNullOrWhiteSpace(searchText))
@@ -106,5 +106,50 @@ namespace TestCore
                 p.Stock > 0
             ).ToList();
         }
+
+        [Test]
+        public void FilterProducts_WithOnlyOutOfStockProducts_ReturnsEmptyList()
+        {
+            // Arrange
+            var outOfStockProducts = new List<Product>
+        {
+            new Product(1, "Product1", 0),
+            new Product(2, "Product2", 0)
+        };
+
+            // Act
+            var result = FilterProducts(outOfStockProducts, "");
+
+            // Assert
+            Assert.That(result.Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void FilterProducts_WithPartialMatch_ReturnsMatchingProducts()
+        {
+            // Arrange
+            string partialSearchTerm = "l";
+
+            // Act
+            var result = FilterProducts(testProducts, partialSearchTerm);
+
+            // Assert
+            Assert.That(result.Count, Is.EqualTo(1));
+            Assert.That(result[0].Name, Is.EqualTo("Melk"));
+        }
+
+        [Test]
+        public void FilterProducts_SearchTermLongerThanProductName_ReturnsNoResults()
+        {
+            // Arrange
+            string longSearchTerm = "Melkpoeder met extra calcium";
+
+            // Act
+            var result = FilterProducts(testProducts, longSearchTerm);
+
+            // Assert
+            Assert.That(result.Count, Is.EqualTo(0));
+        }
     }
+
 }
