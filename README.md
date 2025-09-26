@@ -48,7 +48,7 @@ Deze applicatie gebruikt **GitFlow** als branching strategie voor ontwikkeling.
 
 ## Test Pipeline
 - Automatische tests bij elke Pull Request
-- GitHub Actions workflow in `.github/workflows/maui-tests.yml`
+- GitHub Actions workflow in `.github/workflows/MAUI_unit_tests.yaml`
 - Tests moeten slagen voordat merge mogelijk is
 
 ## Versies
