@@ -33,5 +33,17 @@ namespace Grocery.Core.Data.Repositories
         {
             return clientList;
         }
+        public Client Add(Client client)
+        {
+            if (clientList.Any(c => c.EmailAddress.Equals(client.EmailAddress, StringComparison.OrdinalIgnoreCase)))
+            {
+                throw new InvalidOperationException("Dit email adres is al geregistreerd");
+            }
+
+            int newId = clientList.Max(c => c.Id) + 1;
+            client.Id = newId;
+            clientList.Add(client);
+            return client;
+        }
     }
 }
